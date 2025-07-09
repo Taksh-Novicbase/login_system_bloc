@@ -16,11 +16,11 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-  bool _obscurePassword = true;
+  bool obscurePassword = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,14 +41,13 @@ class _LoginState extends State<Login> {
         },
         builder: (context, state) {
           log(state.runtimeType.toString());
-
           if (state is LoginLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is LoginInitial) {
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -72,7 +71,7 @@ class _LoginState extends State<Login> {
 
                     /// Email Field
                     TextFormField(
-                      controller: _emailController,
+                      controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: 'Email Address',
@@ -86,7 +85,7 @@ class _LoginState extends State<Login> {
                           return 'Please enter your email';
                         }
                         if (!RegExp(
-                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                          r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$',
                         ).hasMatch(value)) {
                           return 'Please enter a valid email';
                         }
@@ -97,21 +96,19 @@ class _LoginState extends State<Login> {
 
                     /// Password Field
                     TextFormField(
-                      controller: _passwordController,
-                      obscureText: _obscurePassword,
+                      controller: passwordController,
+                      obscureText: obscurePassword,
                       decoration: InputDecoration(
                         labelText: 'Password',
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _obscurePassword
+                            obscurePassword
                                 ? Icons.visibility
                                 : Icons.visibility_off,
                           ),
                           onPressed: () {
-                            setState(
-                              () => _obscurePassword = !_obscurePassword,
-                            );
+                            setState(() => obscurePassword = !obscurePassword);
                           },
                         ),
                         border: OutlineInputBorder(
@@ -130,15 +127,15 @@ class _LoginState extends State<Login> {
                     /// Login Button
                     ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        if (formKey.currentState!.validate()) {
                           loginBloc.add(
                             LoginUserEvent(
-                              _emailController.text.trim(),
-                              _passwordController.text.trim(),
+                              emailController.text.trim(),
+                              passwordController.text.trim(),
                             ),
                           );
-                          log(_emailController.text);
-                          log(_passwordController.text);
+                          log(emailController.text);
+                          log(passwordController.text);
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -173,6 +170,10 @@ class _LoginState extends State<Login> {
                   ],
                 ),
               ),
+            );
+          } else if (state is EmailNotSend) {
+            return Center(
+              child: Text('Email not Verified please verify your email'),
             );
           }
           return Container();

@@ -16,14 +16,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   FutureOr<void> login(LoginUserEvent event, Emitter<LoginState> emit) async {
     emit(LoginLoading());
     try {
-      var result = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final auth = FirebaseAuth.instance;
+
+      await auth.signInWithEmailAndPassword(
         email: event.email,
         password: event.password,
       );
-      log(result.toString());
-      emit(LoginSuccess());
+      final user = auth.currentUser;
+
+      if (user != null && user.emailVerified) {
+        emit(LoginSuccess());
+      } else {
+        await auth.signOut();
+        emit(EmailNotSend());
+      }
     } catch (e) {
-      emit(LoginError(e.toString()));
+      emit(LoginError("Login failed: ${e.toString()}"));
     }
   }
 }

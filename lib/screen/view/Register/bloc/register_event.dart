@@ -9,3 +9,8 @@ class RegisterUser extends RegisterEvent {
 
   RegisterUser({required this.email, required this.password});
 }
+
+class VerifyEmail extends RegisterEvent {
+  final String email;
+  VerifyEmail(this.email);
+}

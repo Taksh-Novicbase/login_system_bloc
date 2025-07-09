@@ -9,7 +9,11 @@ final class RegisterLoading extends RegisterState {}
 
 final class RegisterSuccess extends RegisterState {}
 
-final class RegisterError extends RegisterState {
+class VerificationEmailSent extends RegisterState {}
+
+class EmailAlreadyVerified extends RegisterState {}
+
+final class Error extends RegisterState {
   final String message;
-  RegisterError(this.message);
+  Error(this.message);
 }

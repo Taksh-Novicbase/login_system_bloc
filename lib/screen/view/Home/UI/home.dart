@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:login_system/routes/routes.dart';
-
 import '../Bloc/home_bloc.dart';
 
 final homeBloc = HomeBloc();
@@ -13,9 +11,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-    final name = user?.displayName ?? '';
     final email = user?.email ?? 'No Email';
-
     return Scaffold(
       backgroundColor: const Color(0xFFF5F8FD),
       body: BlocConsumer<HomeBloc, HomeState>(
@@ -54,7 +50,7 @@ class Home extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      name.isNotEmpty ? name : email,
+                      email,
                       style: const TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                   ],
@@ -78,13 +74,6 @@ class Home extends StatelessWidget {
           }
           return Container();
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blueAccent,
-        onPressed: () {
-          homeBloc.add(HomeVerifyEmailEvent(email));
-        },
-        child: Icon(Icons.verified_outlined, color: Colors.white),
       ),
     );
   }
