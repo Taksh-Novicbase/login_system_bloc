@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1076711578040",
+    "project_id": "loginsystem-d2806",
+    "storage_bucket": "loginsystem-d2806.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076711578040:android:cc5667606812139417574d",
+        "android_client_info": {
+          "package_name": "com.example.login_system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv7weJ1nGB7rTHsQY-5yz9nZKoB53iJtg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
